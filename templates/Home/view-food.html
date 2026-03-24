@@ -1,0 +1,83 @@
+{% extends 'Home/base.html' %}
+{% load static %}
+
+{% block title %}Menu Showcase | Gourmet{% endblock %}
+{% block page_title %}🍜 Culinary Collection{% endblock %}
+{% block subtitle %}Discover our curated dishes{% endblock %}
+
+{% block header_actions %}
+<div class="header-stats">
+    <div class="stat-badge">
+        <i class="fas fa-utensils"></i>
+        <span>{{ food_items|length }} Items</span>
+    </div>
+    <a href="{% url 'add-food' %}" class="btn-sm-primary">
+        <i class="fas fa-plus"></i> Add New
+    </a>
+</div>
+{% endblock %}
+
+{% block content %}
+
+{% if food_items %}
+<div class="menu-grid">
+    {% for item in food_items %}
+    <div class="gourmet-card">
+        <div class="card-media">
+            <div class="card-category-badge">
+                <i class="fas fa-tag"></i> {{ item.category|capfirst }}
+            </div>
+            {% if item.food_image %}
+                <img src="{{ item.food_image.url }}" alt="{{ item.name }}" class="food-image">
+            {% else %}
+                <img src="{% static 'images/default-food.jpg' %}" alt="Default Food" class="food-image">
+            {% endif %}
+        </div>
+
+        <div class="card-content">
+            <div class="card-header-row">
+                <h3 class="dish-name">{{ item.name }}</h3>
+                <div class="price-tag">
+                    <span class="currency">₹</span>{{ item.price|floatformat:2 }}
+                </div>
+            </div>
+
+            {% if item.description %}
+            <p class="dish-description">{{ item.description|truncatechars:100 }}</p>
+            {% else %}
+            <p class="dish-description muted">
+                No description provided, but taste speaks for itself.
+            </p>
+            {% endif %}
+
+            <div class="card-footer-meta">
+                <div class="meta-item">
+                    <i class="fas fa-clock"></i>
+                    <span>Ready in 20-30 min</span>
+                </div>
+                <div class="order-hint">
+                    <i class="fas fa-star"></i> Chef's Pick
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% else %}
+
+<div class="empty-state">
+    <div class="empty-icon">
+        <i class="fas fa-egg"></i>
+        <i class="fas fa-slash"></i>
+    </div>
+    <h3>No dishes yet</h3>
+    <p>Your menu is empty. Start by adding a delicious item.</p>
+    <a href="{% url 'add-food' %}" class="btn-primary empty-cta">
+        <i class="fas fa-plus-circle"></i> Add First Dish
+    </a>
+</div>
+
+{% endif %}
+
+{% endblock %}

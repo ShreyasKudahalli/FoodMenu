@@ -1,0 +1,41 @@
+{% extends 'Home/base.html' %}
+
+{% block title %}My QR Code{% endblock %}
+{% block page_title %}📱 Your QR Code{% endblock %}
+{% block subtitle %}Share this QR with your customers{% endblock %}
+
+{% block content %}
+
+<div style="text-align:center; padding:30px;">
+
+    <h2>{{ restaurant.restaurant_name }}</h2>
+
+    {% if restaurant.qr_code %}
+        <div style="margin:20px 0;">
+            <img src="{{ restaurant.qr_code.url }}" width="220">
+        </div>
+
+        <p>
+            <a href="{{ restaurant.qr_code.url }}" download class="btn-primary">
+                <i class="fas fa-download"></i> Download QR
+            </a>
+        </p>
+
+        <p style="margin-top:15px; color:gray;">
+            Scan this QR to view your menu
+        </p>
+
+        <div style="margin-top:20px;">
+            <strong>Menu Link:</strong><br>
+            <a href="/menu/{{ restaurant.slug }}/" target="_blank">
+                /menu/{{ restaurant.slug }}/
+            </a>
+        </div>
+
+    {% else %}
+        <p>QR code is being generated...</p>
+    {% endif %}
+
+</div>
+
+{% endblock %}

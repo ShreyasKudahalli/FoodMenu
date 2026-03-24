@@ -1,0 +1,29 @@
+{% extends 'Home/base.html' %}
+
+{% block content %}
+
+<h2>{{ restaurant.restaurant_name }}</h2>
+
+<div class="menu-grid">
+    {% for item in food_items %}
+    <div class="gourmet-card">
+        
+        <div class="card-media">
+            {% if item.food_image %}
+                <img src="{{ item.food_image.url }}" class="food-image">
+            {% else %}
+                <img src="/static/images/default-food.jpg" class="food-image">
+            {% endif %}
+        </div>
+
+        <div class="card-content">
+            <h3>{{ item.name }}</h3>
+            <p>₹ {{ item.price }}</p>
+            <p>{{ item.description }}</p>
+        </div>
+
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

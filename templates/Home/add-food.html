@@ -1,0 +1,85 @@
+{% extends 'Home/base.html' %}
+{% load static %}
+
+{% block title %}Add New Dish | Gourmet Menu{% endblock %}
+{% block page_title %}✨ Add a Signature Dish{% endblock %}
+{% block subtitle %}Enter the details below to enrich your menu{% endblock %}
+
+{% block content %}
+<div class="form-card-elevated">
+    <div class="form-header">
+        <i class="fas fa-pizza-slice form-icon"></i>
+        <h2>New Culinary Creation</h2>
+        <p>Fill in the details with precision</p>
+    </div>
+    
+    <form method="POST" class="premium-form" id="addFoodForm" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="input-group">
+            <label for="name"><i class="fas fa-tag"></i> Dish Name *</label>
+            <input type="text" name="name" id="name" placeholder="e.g., Truffle Risotto" required autocomplete="off">
+            <span class="focus-border"></span>
+        </div>
+        
+        <div class="input-group">
+            <label for="image"><i class="fas fa-image"></i> Dish Image</label>
+            <input type="file" name="food_image" id="image" accept="image/*">
+        </div>
+
+        <div class="input-group">
+            <label for="category">
+                <i class="fas fa-layer-group"></i> Category *
+            </label>
+
+            <select name="category" id="category" required>
+                <option value="">-- Select Category --</option>
+                <option value="veg">Vegetarian</option>
+                <option value="nonveg">Non-Vegetarian</option>
+                <option value="beverage">Beverage</option>
+                <option value="dessert">Dessert</option>
+            </select>
+        </div>
+        
+        <div class="input-group">
+            <label for="price"><i class="fas fa-rupee-sign"></i> Price (₹) *</label>
+            <input type="number" name="price" id="price" placeholder="0.00" step="0.01" required>
+        </div>
+
+        <div class="input-group">
+            <label for="quantity"><i class="fas fa-hashtag"></i> Quantity *</label>
+            <input type="number" name="quantity" id="quantity" placeholder="0" step="1" required>
+        </div>
+        
+        <div class="input-group">
+            <label for="description"><i class="fas fa-align-left"></i> Description</label>
+            <textarea name="description" id="description" rows="4" placeholder="Describe the flavors, ingredients, and presentation..."></textarea>
+        </div>
+        
+        <div class="form-actions">
+            <button type="submit" class="btn-primary">
+                <i class="fas fa-check-circle"></i> Publish to Menu
+            </button>
+            <button type="reset" class="btn-secondary" onclick="this.form.reset(); return false;">
+                <i class="fas fa-undo-alt"></i> Clear
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Real-time price formatting
+    const priceInput = document.getElementById('price');
+    if(priceInput) {
+        priceInput.addEventListener('blur', function() {
+            let val = parseFloat(this.value);
+            if(!isNaN(val)) {
+                this.value = val.toFixed(2);
+            }
+        });
+    }
+</script>
+{% endblock %}
+

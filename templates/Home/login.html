@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Portal | Gourmet Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body class="login-special-bg">
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-brand">
+                <div class="brand-circle">
+                    <i class="fas fa-utensil-spoon"></i>
+                </div>
+                <h2>Gourmet Access</h2>
+                <p>Sign in to manage your menu</p>
+            </div>
+            
+            <form method="POST" class="auth-form">
+                {% csrf_token %}
+                <div class="auth-input-group">
+                    <i class="fas fa-user auth-icon"></i>
+                    <input type="text" name="username" placeholder="Username" required autocomplete="username">
+                </div>
+                <div class="auth-input-group">
+                    <i class="fas fa-lock auth-icon"></i>
+                    <input type="password" name="password" placeholder="Password" required autocomplete="current-password">
+                </div>
+                <button type="submit" class="auth-button">
+                    <i class="fas fa-arrow-right-to-bracket"></i> Login to Dashboard
+                </button>
+            </form>
+            
+            <div class="auth-footer">
+                <p><i class="fas fa-shield-alt"></i> Secure chef area</p>
+            </div>
+        </div>
+        <div class="auth-backdrop-text">
+            <span>✦ Culinary Excellence ✦</span>
+        </div>
+    </div>
+</body>
+</html>

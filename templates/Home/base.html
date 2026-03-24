@@ -1,0 +1,116 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>{% block title %}Gourmet Menu{% endblock %}</title>
+    <!-- Google Fonts for professional typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 (free icons) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}">
+</head>
+<body>
+    <div class="app-wrapper">
+        <!-- Premium Sidebar Navigation -->
+        <aside class="premium-sidebar">
+            <div class="sidebar-brand">
+                <div class="brand-icon">
+                    <i class="fas fa-utensils"></i>
+                </div>
+                <div class="brand-text">
+                    <span class="brand-title">Gourmet</span>
+                    <span class="brand-sub">Menu Manager</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul class="nav-menu">
+
+                    {% if not is_customer_view %}
+                        <!-- 👨‍🍳 ADMIN NAV -->
+                        <li class="nav-item">
+                            <a href="{% url 'add-food' %}" class="nav-link">
+                                <i class="fas fa-plus-circle"></i>
+                                <span>Add Dish</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'view-food' %}" class="nav-link">
+                                <i class="fas fa-utensil-spoon"></i>
+                                <span>Menu Collection</span>
+                            </a>
+                        </li>
+                        {% if not is_customer_view %}
+                        <li class="nav-item">
+                            <a href="{% url 'my-qr' %}" class="nav-link">
+                                <i class="fas fa-qrcode"></i>
+                                <span>My QR</span>
+                            </a>
+                        </li>
+                        {% endif %}
+                    {% else %}
+                        <!-- 👨‍👩‍👧 CUSTOMER NAV -->
+                        <li class="nav-item">
+                            <a href="#" class="nav-link active">
+                                <i class="fas fa-book-open"></i>
+                                <span>Menu</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link">
+                                <i class="fas fa-star"></i>
+                                <span>Popular</span>
+                            </a>
+                        </li>
+                    {% endif %}
+
+                </ul>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="chef-tip">
+                    {% if is_customer_view %}
+                        <i class="fas fa-store"></i>
+                        <span>{{ restaurant.restaurant_name }}</span>
+                    {% else %}
+                        <i class="fas fa-chef-hat"></i>
+                        <span>Freshly curated</span>
+                    {% endif %}
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-dashboard">
+            <div class="content-header">
+                <div class="header-greeting">
+                    <h1>{% block page_title %}Food Menu Studio{% endblock %}</h1>
+                    <p>{% block subtitle %}Craft your culinary experience{% endblock %}</p>
+                </div>
+                {% block header_actions %}{% endblock %}
+            </div>
+            <div class="content-body">
+                {% block content %}
+                {% endblock %}
+            </div>
+        </main>
+    </div>
+
+    <!-- Optional JavaScript for interactive enhancements -->
+    <script>
+        // Simple hover animation & active state handling
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPath = window.location.pathname;
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                if (link.getAttribute('href') === currentPath) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
