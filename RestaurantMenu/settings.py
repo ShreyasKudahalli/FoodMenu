@@ -54,7 +54,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'RestaurantMenu.urls'
-
+CSRF_TRUSTED_ORIGINS = ['https://foodmenu-a8cu.onrender.com']
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
 
 TEMPLATES = [
