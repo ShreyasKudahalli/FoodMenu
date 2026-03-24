@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from .models import Restaurant, FoodItem
+from django.contrib.auth.decorators import login_required
 
 def login_user(request):
     if request.method == "POST":
@@ -23,7 +24,7 @@ def login_user(request):
 
     return render(request, "Home/login.html")
 
-
+@login_required
 def add_food(request):
     if request.method == "POST":
 
@@ -45,6 +46,7 @@ def add_food(request):
 
     return render(request,'Home/add-food.html')
 
+@login_required
 def view_food(request):
 
     restaurant = request.user.restaurant
@@ -65,6 +67,7 @@ def customer_menu(request, slug):
         'is_customer_view': True,
     })
 
+@login_required
 def my_qr(request):
     restaurant = request.user.restaurant
 

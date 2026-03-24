@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: restaurantmenu
+    env: python
+    buildCommand: bash build.sh
+    startCommand: gunicorn RestaurantMenu.wsgi:application
+    plan: free
+    healthCheckPath: /
+    envVars:
+      - key: DEBUG
+        value: 'False'
+      - key: SECRET_KEY
+        sync: false
+      - key: DATABASE_URL
+        sync: false
+      - key: RENDER_EXTERNAL_HOSTNAME
+        fromService:
+          name: restaurantmenu
+          property: host
