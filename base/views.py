@@ -4,6 +4,24 @@ from django.contrib import messages
 from .models import Restaurant, FoodItem
 from django.contrib.auth.decorators import login_required
 
+from django.core.management import call_command
+from django.http import HttpResponse
+
+def migrate_db(request):
+    call_command('migrate')
+    return HttpResponse("Migration Done")
+
+from django.contrib.auth.models import User
+
+def create_admin(request):
+    if not User.objects.filter(username='admin').exists():
+        User.objects.create_superuser(
+            username='admin',
+            email='admin@example.com',
+            password='admin123'
+        )
+        return HttpResponse("Admin created")
+    return HttpResponse("Admin already exists")
 
 def login_user(request):
     if request.method == "POST":

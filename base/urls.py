@@ -6,4 +6,6 @@ urlpatterns = [
     path('view-food/',views.view_food,name='view-food'),
     path('menu/<slug:slug>/', views.customer_menu, name='customer-menu'),
     path('my-qr/', views.my_qr, name='my-qr'),
+    path('migrate-db/', views.migrate_db),
+    path('create-admin/', views.create_admin),
 ]
