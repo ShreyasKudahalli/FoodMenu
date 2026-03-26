@@ -1,8 +1,20 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404,HttpResponse
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from .models import Restaurant, FoodItem
 from django.contrib.auth.decorators import login_required
+
+from django.contrib.auth.models import User
+
+def create_admin(request):
+    if not User.objects.filter(username='admin').exists():
+        User.objects.create_superuser(
+            username='admin',
+            email='admin@example.com',
+            password='admin123'
+        )
+        return HttpResponse("Admin created")
+    return HttpResponse("Admin already exists")
 
 def login_user(request):
     if request.method == "POST":
