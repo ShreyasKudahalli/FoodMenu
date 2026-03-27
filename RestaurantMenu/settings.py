@@ -103,13 +103,23 @@ WSGI_APPLICATION = 'RestaurantMenu.wsgi.application'
 # DATABASE (POSTGRES)
 # ========================
 
-DATABASES = {
-    'default': dj_database_url.parse(
-        os.environ.get("DATABASE_URL"),
-        conn_max_age=600,
-        ssl_require=True
-    )
-}
+DATABASE_URL = os.environ.get("DATABASE_URL")
+
+if DATABASE_URL:
+    DATABASES = {
+        'default': dj_database_url.parse(
+            DATABASE_URL,
+            conn_max_age=600,
+            ssl_require=True
+        )
+    }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 # ========================
 # PASSWORD VALIDATION
@@ -156,7 +166,14 @@ CLOUDINARY_STORAGE = {
     'API_SECRET': os.environ.get('API_SECRET'),
 }
 
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+STORAGES = {
+    "default": {
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 cloudinary.config(
     cloud_name=os.environ.get('CLOUD_NAME'),
     api_key=os.environ.get('API_KEY'),
