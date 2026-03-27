@@ -29,7 +29,10 @@ class Restaurant(models.Model):
         super().save(*args, **kwargs)
 
         try:
-            base_url = os.environ.get('RENDER_EXTERNAL_URL', 'http://127.0.0.1:8000')
+            # Use the deployed domain or fallback to localhost for development
+            hostname = os.environ.get('RENDER_EXTERNAL_HOSTNAME', '127.0.0.1:8000')
+            protocol = 'https' if 'render.com' in hostname else 'http'
+            base_url = f"{protocol}://{hostname}"
             url = f"{base_url}/menu/{self.slug}/"
 
             qr = qrcode.make(url)
