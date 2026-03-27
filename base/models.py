@@ -34,12 +34,15 @@ class Restaurant(models.Model):
 
             qr = qrcode.make(url)
 
+            from django.core.files.base import ContentFile
+
             buffer = BytesIO()
             qr.save(buffer, format='PNG')
 
-            file_name = f"{self.slug}_qr.png"
+            buffer.seek(0)  # 🔥 FIX (MOST IMPORTANT LINE)
 
-            self.qr_code.save(file_name, File(buffer), save=False)
+            file_name = f"{self.slug}_qr.png"
+            self.qr_code.save(file_name, ContentFile(buffer.read()), save=False)
 
             super().save(update_fields=['qr_code'])
 
