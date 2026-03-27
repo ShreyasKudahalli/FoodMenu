@@ -4,6 +4,7 @@ import qrcode
 from io import BytesIO
 from django.core.files import File
 from django.utils.text import slugify
+import os
 
 # Create your models here.\
 
@@ -29,7 +30,10 @@ class Restaurant(models.Model):
 
         # ✅ Generate QR only if not exists
         if not self.qr_code:
-            url = f"http://127.0.0.1:8000/menu/{self.slug}/"
+            # Use the deployed domain or fallback to localhost for development
+            base_url = os.environ.get('RENDER_EXTERNAL_HOSTNAME', '127.0.0.1:8000')
+            protocol = 'https' if 'render.com' in base_url else 'http'
+            url = f"{protocol}://{base_url}/menu/{self.slug}/"
 
             qr = qrcode.make(url)
 

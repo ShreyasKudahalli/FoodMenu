@@ -17,3 +17,9 @@ services:
         fromService:
           name: restaurantmenu
           property: host
+      - key: CLOUD_NAME
+        sync: false
+      - key: API_KEY
+        sync: false
+      - key: API_SECRET
+        sync: false
