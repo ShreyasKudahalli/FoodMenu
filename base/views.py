@@ -3,6 +3,9 @@ from django.contrib.auth import authenticate, login
 from django.contrib import messages
 from .models import Restaurant, FoodItem
 from django.contrib.auth.decorators import login_required
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 def login_user(request):
@@ -30,23 +33,28 @@ def add_food(request):
     try:
         restaurant = request.user.restaurant
     except Restaurant.DoesNotExist:
+        logger.warning(f"User {request.user.username} has no restaurant profile")
         messages.error(request, "You don't have a restaurant profile. Please contact admin.")
         return redirect('login')
     
     if request.method == "POST":
-        FoodItem.objects.create(
-            restaurant=restaurant,   # 🔥 attach owner
-            name=request.POST.get("name"),
-            price=request.POST.get("price"),
-            quantity=request.POST.get("quantity"),
-            description=request.POST.get("description"),
-            category=request.POST.get("category"),
-            food_image=request.FILES.get("food_image")
-        )
+        try:
+            FoodItem.objects.create(
+                restaurant=restaurant,   # 🔥 attach owner
+                name=request.POST.get("name"),
+                price=request.POST.get("price"),
+                quantity=request.POST.get("quantity"),
+                description=request.POST.get("description"),
+                category=request.POST.get("category"),
+                food_image=request.FILES.get("food_image")
+            )
 
-        messages.success(request, "Food item added successfully!")
+            messages.success(request, "Food item added successfully!")
 
-        return redirect('add-food')
+            return redirect('add-food')
+        except Exception as e:
+            logger.error(f"Error adding food item: {str(e)}", exc_info=True)
+            messages.error(request, f"Error adding food: {str(e)}")
 
     return render(request,'Home/add-food.html')
 
