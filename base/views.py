@@ -54,8 +54,11 @@ def add_food(request):
             )
             messages.success(request, "Food item added successfully!")
             return redirect('add-food')
+        context = {
+            'is_customer_view': False
+        }
 
-        return render(request,'Home/add-food.html')
+        return render(request,'Home/add-food.html', context)
     except Exception as e:
         logger.error(f"Error in add_food view for user {request.user.username}: {str(e)}", exc_info=True)
         raise  # Let Django handle it
