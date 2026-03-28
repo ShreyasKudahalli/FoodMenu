@@ -28,9 +28,20 @@ if os.environ.get('RENDER_EXTERNAL_HOSTNAME'):
 
 ALLOWED_HOSTS += ['.onrender.com', 'localhost', '127.0.0.1']
 
+# ========================
+# CSRF CONFIGURATION
+# ========================
 CSRF_TRUSTED_ORIGINS = [
     'https://*.onrender.com',
 ]
+
+# Dynamically add the specific Render hostname
+if os.environ.get('RENDER_EXTERNAL_HOSTNAME'):
+    hostname = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
+    CSRF_TRUSTED_ORIGINS.append(f'https://{hostname}')
+
+CSRF_COOKIE_HTTPONLY = False  # Allow CSRF token in JavaScript
+CSRF_COOKIE_SAMESITE = 'Lax'  # Allow cross-site navigation
 
 # ========================
 # APPLICATIONS
