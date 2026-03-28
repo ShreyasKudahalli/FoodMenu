@@ -82,10 +82,10 @@ def customer_menu(request, slug):
         restaurant=restaurant
     )
 
-    return render(request, 'Home/view-food.html', {
-        'restaurant': restaurant,
-        'food_items': food_items,
+    return render(request, 'Home/customer-menu.html', {
         'is_customer_view': True,
+        'restaurant': restaurant,
+        'food_items': food_items
     })
 
 @login_required
