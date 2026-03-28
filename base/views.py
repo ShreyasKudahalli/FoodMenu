@@ -32,15 +32,19 @@ def login_user(request):
 def add_food(request):
     try:
         restaurant = request.user.restaurant
-    except Restaurant.DoesNotExist:
-        logger.warning(f"User {request.user.username} has no restaurant profile")
+    except Restaurant.DoesNotExist as e:
+        logger.error(f"Restaurant.DoesNotExist for user {request.user.username}: {str(e)}")
         messages.error(request, "You don't have a restaurant profile. Please contact admin.")
         return redirect('login')
+    except Exception as e:
+        logger.error(f"Unexpected error getting restaurant: {str(e)}", exc_info=True)
+        messages.error(request, f"Error: {str(e)}")
+        return redirect('login')
     
-    if request.method == "POST":
-        try:
+    try:
+        if request.method == "POST":
             FoodItem.objects.create(
-                restaurant=restaurant,   # 🔥 attach owner
+                restaurant=restaurant,
                 name=request.POST.get("name"),
                 price=request.POST.get("price"),
                 quantity=request.POST.get("quantity"),
@@ -48,15 +52,13 @@ def add_food(request):
                 category=request.POST.get("category"),
                 food_image=request.FILES.get("food_image")
             )
-
             messages.success(request, "Food item added successfully!")
-
             return redirect('add-food')
-        except Exception as e:
-            logger.error(f"Error adding food item: {str(e)}", exc_info=True)
-            messages.error(request, f"Error adding food: {str(e)}")
 
-    return render(request,'Home/add-food.html')
+        return render(request,'Home/add-food.html')
+    except Exception as e:
+        logger.error(f"Error in add_food view for user {request.user.username}: {str(e)}", exc_info=True)
+        raise  # Let Django handle it
 
 @login_required
 def view_food(request):
