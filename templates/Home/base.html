@@ -12,8 +12,23 @@
 </head>
 <body>
     <div class="app-wrapper">
+        <!-- Mobile Header -->
+        <div class="mobile-header">
+            <button class="hamburger-menu" id="hamburgerBtn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="brand-icon" style="margin-left: auto;">
+                <i class="fas fa-utensils"></i>
+            </div>
+        </div>
+
+        <!-- Sidebar Overlay for Mobile -->
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
         <!-- Premium Sidebar Navigation -->
-        <aside class="premium-sidebar">
+        <aside class="premium-sidebar" id="sidebarMenu">
             <div class="sidebar-brand">
                 <div class="brand-icon">
                     <i class="fas fa-utensils"></i>
@@ -108,6 +123,40 @@
                     link.classList.add('active');
                 }
             });
+
+            // Mobile menu toggle
+            const hamburgerBtn = document.getElementById('hamburgerBtn');
+            const sidebarMenu = document.getElementById('sidebarMenu');
+            const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+            if (hamburgerBtn) {
+                hamburgerBtn.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    sidebarMenu.classList.toggle('mobile-open');
+                    sidebarOverlay.classList.toggle('active');
+                });
+
+                // Close menu when overlay is clicked
+                if (sidebarOverlay) {
+                    sidebarOverlay.addEventListener('click', function() {
+                        hamburgerBtn.classList.remove('active');
+                        sidebarMenu.classList.remove('mobile-open');
+                        sidebarOverlay.classList.remove('active');
+                    });
+                }
+
+                // Close menu when a nav link is clicked
+                const navItems = document.querySelectorAll('.nav-link');
+                navItems.forEach(link => {
+                    link.addEventListener('click', function() {
+                        if (window.innerWidth <= 768) {
+                            hamburgerBtn.classList.remove('active');
+                            sidebarMenu.classList.remove('mobile-open');
+                            sidebarOverlay.classList.remove('active');
+                        }
+                    });
+                });
+            }
         });
     </script>
     {% block extra_js %}{% endblock %}
