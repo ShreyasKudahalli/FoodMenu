@@ -27,10 +27,13 @@ def login_user(request):
 
 @login_required
 def add_food(request):
+    try:
+        restaurant = request.user.restaurant
+    except Restaurant.DoesNotExist:
+        messages.error(request, "You don't have a restaurant profile. Please contact admin.")
+        return redirect('login')
+    
     if request.method == "POST":
-
-        restaurant = request.user.restaurant   # 🔥 key line
-
         FoodItem.objects.create(
             restaurant=restaurant,   # 🔥 attach owner
             name=request.POST.get("name"),
@@ -49,8 +52,12 @@ def add_food(request):
 
 @login_required
 def view_food(request):
+    try:
+        restaurant = request.user.restaurant
+    except Restaurant.DoesNotExist:
+        messages.error(request, "You don't have a restaurant profile. Please contact admin.")
+        return redirect('login')
 
-    restaurant = request.user.restaurant
     food_items = FoodItem.objects.filter(restaurant=restaurant)
 
     return render(request, 'Home/view-food.html', {'food_items': food_items})
@@ -70,7 +77,11 @@ def customer_menu(request, slug):
 
 @login_required
 def my_qr(request):
-    restaurant = request.user.restaurant
+    try:
+        restaurant = request.user.restaurant
+    except Restaurant.DoesNotExist:
+        messages.error(request, "You don't have a restaurant profile. Please contact admin.")
+        return redirect('login')
 
     return render(request, 'Home/my-qr.html', {
         'restaurant': restaurant
