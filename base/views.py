@@ -79,7 +79,8 @@ def customer_menu(request, slug):
     restaurant = get_object_or_404(Restaurant, slug=slug)
 
     food_items = FoodItem.objects.filter(
-        restaurant=restaurant
+        restaurant=restaurant,
+        is_available=True
     )
 
     return render(request, 'Home/customer-menu.html', {
@@ -99,3 +100,42 @@ def my_qr(request):
     return render(request, 'Home/my-qr.html', {
         'restaurant': restaurant
     })
+
+@login_required
+def delete_food(request, slug):
+    food = get_object_or_404(FoodItem, slug=slug, restaurant=request.user.restaurant)
+    food.delete()
+    messages.success(request, "Food deleted successfully!")
+    return redirect('view-food')
+
+@login_required
+def toggle_food(request, slug):
+    food = get_object_or_404(FoodItem, slug=slug, restaurant=request.user.restaurant)
+
+    food.is_available = not food.is_available
+    food.save()
+
+    return redirect('view-food')
+
+@login_required
+def edit_food(request, slug):
+    food = get_object_or_404(
+        FoodItem,
+        slug=slug,
+        restaurant=request.user.restaurant
+    )
+
+    if request.method == "POST":
+        food.name = request.POST.get("name")
+        food.price = request.POST.get("price")
+        food.quantity = request.POST.get("quantity")
+        food.description = request.POST.get("description")
+        food.category = request.POST.get("category")
+
+        if request.FILES.get("food_image"):
+            food.food_image = request.FILES.get("food_image")
+
+        food.save()
+        return redirect('view-food')
+
+    return render(request, 'Home/edit-food.html', {'food': food})

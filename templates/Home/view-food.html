@@ -23,10 +23,37 @@
 <div class="menu-grid">
     {% for item in food_items %}
     <div class="gourmet-card">
+
+        <!-- OWNER ACTIONS (only show for owner view) -->
+        {% if not is_customer_view %}
+        <div class="card-actions">
+            <a href="{% url 'edit-food' item.slug %}" class="btn-action edit">
+                <i class="fas fa-pen"></i>
+            </a>
+
+            <a href="{% url 'delete-food' item.slug %}" class="btn-action delete">
+                <i class="fas fa-trash"></i>
+            </a>
+
+            <a href="{% url 'toggle-food' item.slug %}" class="btn-action toggle">
+                {% if item.is_available %}
+                    <i class="fas fa-eye-slash"></i>
+                {% else %}
+                    <i class="fas fa-eye"></i>
+                {% endif %}
+            </a>
+        </div>
+        {% endif %}
+
         <div class="card-media">
             <div class="card-category-badge">
                 <i class="fas fa-tag"></i> {{ item.category|capfirst }}
             </div>
+
+            {% if not item.is_available and not is_customer_view %}
+                <div class="status-badge hidden-badge">Hidden</div>
+            {% endif %}
+
             {% if item.food_image %}
                 <img src="{{ item.food_image.url }}" alt="{{ item.name }}" class="food-image">
             {% else %}
@@ -65,7 +92,6 @@
 </div>
 
 {% else %}
-
 <div class="empty-state">
     <div class="empty-icon">
         <i class="fas fa-egg"></i>
@@ -77,7 +103,5 @@
         <i class="fas fa-plus-circle"></i> Add First Dish
     </a>
 </div>
-
 {% endif %}
-
 {% endblock %}

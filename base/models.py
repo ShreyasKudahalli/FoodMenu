@@ -5,6 +5,7 @@ from io import BytesIO
 from django.core.files import File
 from django.utils.text import slugify
 import os
+from django.core.files.base import ContentFile
 
 # Create your models here.\
 
@@ -18,6 +19,7 @@ class Restaurant(models.Model):
     subscription_end = models.DateField(null=True, blank=True)
 
     qr_code = models.ImageField(upload_to='qr_codes/', blank=True, null=True)
+    is_available = models.BooleanField(default=True)
 
     def __str__(self):
         return self.restaurant_name
