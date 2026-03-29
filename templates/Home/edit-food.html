@@ -1,0 +1,85 @@
+{% extends 'Home/base.html' %}
+{% load static %}
+
+{% block title %}Edit Dish | Gourmet Menu{% endblock %}
+{% block page_title %}✨ Edit Dish{% endblock %}
+{% block subtitle %}Update the details below{% endblock %}
+
+{% block content %}
+<div class="form-card-elevated">
+    <div class="form-header">
+        <i class="fas fa-pizza-slice form-icon"></i>
+        <h2>Edit Culinary Creation</h2>
+        <p>Update the details with precision</p>
+    </div>
+    
+    <form method="POST" class="premium-form" id="addFoodForm" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="input-group">
+            <label for="name"><i class="fas fa-tag"></i> Dish Name *</label>
+            <input type="text" name="name" id="name" value="{{ food.name }}" required autocomplete="off">
+            <span class="focus-border"></span>
+        </div>
+        
+        <div class="input-group">
+            <label for="image"><i class="fas fa-image"></i> Dish Image</label>
+            <input type="file" name="food_image" id="image" accept="image/*">
+        </div>
+
+        <div class="input-group">
+            <label for="category">
+                <i class="fas fa-layer-group"></i> Category *
+            </label>
+
+            <select name="category" id="category" required>
+                <option value="">-- Select Category --</option>
+                <option value="veg" {% if food.category == 'veg' %}selected{% endif %}>Vegetarian</option>
+                <option value="nonveg" {% if food.category == 'nonveg' %}selected{% endif %}>Non-Vegetarian</option>
+                <option value="beverage" {% if food.category == 'beverage' %}selected{% endif %}>Beverage</option>
+                <option value="dessert" {% if food.category == 'dessert' %}selected{% endif %}>Dessert</option>
+            </select>
+        </div>
+        
+        <div class="input-group">
+            <label for="price"><i class="fas fa-rupee-sign"></i> Price (₹) *</label>
+            <input type="number" name="price" id="price" value="{{ food.price }}" step="0.01" required>
+        </div>
+
+        <div class="input-group">
+            <label for="quantity"><i class="fas fa-hashtag"></i> Quantity *</label>
+            <input type="number" name="quantity" id="quantity" value="{{ food.quantity }}" step="1" required>
+        </div>
+        
+        <div class="input-group">
+            <label for="description"><i class="fas fa-align-left"></i> Description</label>
+            <textarea name="description" id="description" rows="4" placeholder="Describe the flavors, ingredients, and presentation...">{{ food.description }}</textarea>
+        </div>
+        
+        <div class="form-actions">
+            <button type="submit" class="btn-primary">
+                <i class="fas fa-check-circle"></i> Update Dish
+            </button>
+            <button type="reset" class="btn-secondary" onclick="this.form.reset(); return false;">
+                <i class="fas fa-undo-alt"></i> Reset
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Real-time price formatting
+    const priceInput = document.getElementById('price');
+    if(priceInput) {
+        priceInput.addEventListener('blur', function() {
+            let val = parseFloat(this.value);
+            if(!isNaN(val)) {
+                this.value = val.toFixed(2);
+            }
+        });
+    }
+</script>
+{% endblock %}
+

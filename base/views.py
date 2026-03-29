@@ -102,15 +102,15 @@ def my_qr(request):
     })
 
 @login_required
-def delete_food(request, slug):
-    food = get_object_or_404(FoodItem, slug=slug, restaurant=request.user.restaurant)
+def delete_food(request, id):
+    food = get_object_or_404(FoodItem, id=id, restaurant=request.user.restaurant)
     food.delete()
     messages.success(request, "Food deleted successfully!")
     return redirect('view-food')
 
 @login_required
-def toggle_food(request, slug):
-    food = get_object_or_404(FoodItem, slug=slug, restaurant=request.user.restaurant)
+def toggle_food(request, id):
+    food = get_object_or_404(FoodItem, id=id, restaurant=request.user.restaurant)
 
     food.is_available = not food.is_available
     food.save()
@@ -118,10 +118,10 @@ def toggle_food(request, slug):
     return redirect('view-food')
 
 @login_required
-def edit_food(request, slug):
+def edit_food(request, id):
     food = get_object_or_404(
         FoodItem,
-        slug=slug,
+        id=id,
         restaurant=request.user.restaurant
     )
 

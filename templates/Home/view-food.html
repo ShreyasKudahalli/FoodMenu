@@ -27,15 +27,15 @@
         <!-- OWNER ACTIONS (only show for owner view) -->
         {% if not is_customer_view %}
         <div class="card-actions">
-            <a href="{% url 'edit-food' item.slug %}" class="btn-action edit">
+            <a href="{% url 'edit-food' item.id %}" class="btn-action edit">
                 <i class="fas fa-pen"></i>
             </a>
 
-            <a href="{% url 'delete-food' item.slug %}" class="btn-action delete">
+            <a href="{% url 'delete-food' item.id %}" class="btn-action delete">
                 <i class="fas fa-trash"></i>
             </a>
 
-            <a href="{% url 'toggle-food' item.slug %}" class="btn-action toggle">
+            <a href="{% url 'toggle-food' item.id %}" class="btn-action toggle">
                 {% if item.is_available %}
                     <i class="fas fa-eye-slash"></i>
                 {% else %}
