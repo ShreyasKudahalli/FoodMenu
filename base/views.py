@@ -135,6 +135,8 @@ def toggle_food(request, id):
     food.is_available = not food.is_available
     food.save()
 
+    status = "shown" if food.is_available else "hidden"
+    messages.success(request, f"Food item {status} successfully!")
     return redirect('view-food')
 
 @login_required
@@ -156,6 +158,7 @@ def edit_food(request, id):
             food.food_image = request.FILES.get("food_image")
 
         food.save()
+        messages.success(request, "Food item updated successfully!")
         return redirect('view-food')
 
     return render(request, 'Home/edit-food.html', {'food': food})

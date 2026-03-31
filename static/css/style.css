@@ -1367,3 +1367,141 @@ body {
         padding: 2rem 1.5rem;
     }
 }
+
+/* ===== SWEETALERT2 CUSTOM STYLING ===== */
+
+.swal2-popup {
+    border-radius: 24px !important;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2) !important;
+    border: 1px solid rgba(0, 0, 0, 0.04) !important;
+    background: #FFFFFF !important;
+}
+
+.swal2-title {
+    font-size: 1.5rem !important;
+    font-weight: 700 !important;
+    color: #1E2A32 !important;
+    margin-bottom: 1rem !important;
+}
+
+.swal2-html-container {
+    font-size: 1rem !important;
+    color: #5A6E7A !important;
+    line-height: 1.6 !important;
+}
+
+.swal2-icon {
+    border-color: transparent !important;
+    margin-bottom: 1rem !important;
+}
+
+.swal2-icon.swal2-success {
+    color: #2A9D8F !important;
+}
+
+.swal2-icon.swal2-error {
+    color: #E76F51 !important;
+}
+
+.swal2-icon.swal2-warning {
+    color: #E9C46A !important;
+    border-color: #E9C46A !important;
+}
+
+.swal2-icon.swal2-info {
+    color: #E86A2C !important;
+}
+
+.swal2-icon .swal2-icon-content {
+    font-size: 2rem !important;
+}
+
+.swal2-progress-steps {
+    font-weight: 600 !important;
+}
+
+.swal2-progress-step {
+    color: #E86A2C !important;
+}
+
+.swal2-progress-step.swal2-active-progress-step {
+    color: #E86A2C !important;
+}
+
+.swal-btn-delete,
+.swal-btn-cancel,
+.swal-btn-confirm {
+    padding: 0.9rem 2rem !important;
+    border-radius: 24px !important;
+    font-weight: 700 !important;
+    font-size: 1rem !important;
+    border: none !important;
+    transition: all 0.3s ease !important;
+    text-transform: none !important;
+    letter-spacing: 0.5px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+}
+
+.swal-btn-delete {
+    background: linear-gradient(135deg, #E76F51, #E86A2C) !important;
+    color: white !important;
+    box-shadow: 0 6px 16px rgba(231, 111, 81, 0.3) !important;
+}
+
+.swal-btn-delete:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 10px 24px rgba(231, 111, 81, 0.4) !important;
+}
+
+.swal-btn-delete:focus {
+    outline: none !important;
+    box-shadow: 0 0 0 4px rgba(231, 111, 81, 0.2) !important;
+}
+
+.swal-btn-cancel {
+    background: #E9ECEF !important;
+    color: #495057 !important;
+    border: 1px solid #DEE2E6 !important;
+}
+
+.swal-btn-cancel:hover {
+    background: #DEE2E6 !important;
+}
+
+.swal-btn-confirm {
+    background: linear-gradient(135deg, #E86A2C, #F4A261) !important;
+    color: white !important;
+    box-shadow: 0 6px 16px rgba(232, 106, 44, 0.3) !important;
+}
+
+.swal-btn-confirm:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 10px 24px rgba(232, 106, 44, 0.4) !important;
+}
+
+.swal-btn-confirm:focus {
+    outline: none !important;
+    box-shadow: 0 0 0 4px rgba(232, 106, 44, 0.2) !important;
+}
+
+.swal2-timer-progress-bar {
+    background: linear-gradient(90deg, #E86A2C, #F4A261) !important;
+}
+
+/* ===== SWEETALERT2 ANIMATIONS ===== */
+.swal2-show {
+    animation: swal-pop-in 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55) !important;
+}
+
+@keyframes swal-pop-in {
+    from {
+        opacity: 0;
+        transform: scale(0.8) translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}

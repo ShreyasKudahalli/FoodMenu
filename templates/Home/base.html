@@ -7,6 +7,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
     <!-- Font Awesome 6 (free icons) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
@@ -113,6 +115,9 @@
     </div>
 
     <!-- Optional JavaScript for interactive enhancements -->
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    
     <script>
         // Simple hover animation & active state handling
         document.addEventListener('DOMContentLoaded', function() {
@@ -157,6 +162,54 @@
                     });
                 });
             }
+
+            // Handle delete confirmations with SweetAlert2
+            document.querySelectorAll('.btn-action.delete').forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const deleteUrl = this.getAttribute('href');
+                    
+                    Swal.fire({
+                        title: 'Delete Food Item?',
+                        text: 'This action cannot be undone!',
+                        icon: 'warning',
+                        iconColor: '#E76F51',
+                        showCancelButton: true,
+                        confirmButtonColor: '#E76F51',
+                        cancelButtonColor: '#6C757D',
+                        confirmButtonText: '<i class="fas fa-trash"></i> Delete',
+                        cancelButtonText: 'Cancel',
+                        buttonsStyling: false,
+                        customClass: {
+                            confirmButton: 'swal-btn-delete',
+                            cancelButton: 'swal-btn-cancel'
+                        }
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.href = deleteUrl;
+                        }
+                    });
+                });
+            });
+
+            // Show success messages as popups
+            {% if messages %}
+                {% for message in messages %}
+                    Swal.fire({
+                        title: '{{ message.tags|default:"Success" }}',
+                        text: '{{ message }}',
+                        icon: '{% if message.tags == "error" %}error{% elif message.tags == "warning" %}warning{% else %}success{% endif %}',
+                        confirmButtonColor: '#E86A2C',
+                        confirmButtonText: 'OK',
+                        buttonsStyling: false,
+                        customClass: {
+                            confirmButton: 'swal-btn-confirm'
+                        },
+                        timer: 3000,
+                        timerProgressBar: true
+                    });
+                {% endfor %}
+            {% endif %}
         });
     </script>
     {% block extra_js %}{% endblock %}
