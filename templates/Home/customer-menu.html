@@ -1,35 +1,110 @@
 {% extends 'Home/base.html' %}
+{% load static %}
 
 {% block content %}
 
-<h2>{{ restaurant.restaurant_name }}</h2>
-
-{% for category_key, category_data in category_items.items %}
-<div class="category-section">
-    <h3 class="category-title">{{ category_data.label }}</h3>
-    
-    <div class="category-items-horizontal">
-        {% for item in category_data.items %}
-        <div class="gourmet-card">
-            
-            <div class="card-media">
-                {% if item.food_image %}
-                    <img src="{{ item.food_image.url }}" class="food-image">
-                {% else %}
-                    <img src="/static/images/default-food.jpg" class="food-image">
-                {% endif %}
-            </div>
-
-            <div class="card-content">
-                <h3>{{ item.name }}</h3>
-                <p>₹ {{ item.price }}</p>
-                <p>{{ item.description }}</p>
-            </div>
-
+<!-- HERO SECTION -->
+<div class="customer-hero">
+    <div class="hero-content">
+        <div class="hero-badge">
+            <i class="fas fa-star"></i> Welcome to our menu
         </div>
-        {% endfor %}
+        <h1 class="hero-title">{{ restaurant.restaurant_name }}</h1>
+        <p class="hero-subtitle">Discover our hand-picked culinary collection</p>
+    </div>
+    <div class="hero-decoration">
+        <div class="decoration-circle decoration-1"></div>
+        <div class="decoration-circle decoration-2"></div>
     </div>
 </div>
-{% endfor %}
+
+<!-- MENU SHOWCASE -->
+<div class="customer-menu-container">
+    {% for category_key, category_data in category_items.items %}
+    
+    <section class="menu-category-section">
+        <!-- Category Header -->
+        <div class="category-header">
+            <div class="category-header-content">
+                <h2 class="category-name">{{ category_data.label }}</h2>
+                <div class="category-divider"></div>
+                <p class="category-count">
+                    <i class="fas fa-check-circle"></i> 
+                    {{ category_data.items|length }} item{{ category_data.items|length|pluralize }}
+                </p>
+            </div>
+        </div>
+
+        <!-- Items Grid -->
+        <div class="category-items-grid">
+            {% for item in category_data.items %}
+            <div class="premium-food-card">
+                <!-- Image Container -->
+                <div class="card-image-wrapper">
+                    {% if item.food_image %}
+                        <img src="{{ item.food_image.url }}" alt="{{ item.name }}" class="card-food-image">
+                    {% else %}
+                        <img src="https://via.placeholder.com/400x300?text={{ item.name|urlencode }}" alt="Default" class="card-food-image">
+                    {% endif %}
+                    <div class="card-overlay"></div>
+                    
+                    <!-- Category Tag -->
+                    <div class="category-tag">
+                        {% if category_key == 'veg' %}
+                            <span class="veg-badge"><i class="fas fa-leaf"></i> Veg</span>
+                        {% elif category_key == 'nonveg' %}
+                            <span class="nonveg-badge"><i class="fas fa-drumstick-bite"></i> Non-Veg</span>
+                        {% elif category_key == 'beverage' %}
+                            <span class="beverage-badge"><i class="fas fa-wine-glass"></i> Beverage</span>
+                        {% elif category_key == 'dessert' %}
+                            <span class="dessert-badge"><i class="fas fa-ice-cream"></i> Dessert</span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Card Content -->
+                <div class="card-body">
+                    <div class="card-top">
+                        <h3 class="item-name">{{ item.name }}</h3>
+                        <div class="price-badge">₹{{ item.price|floatformat:0 }}</div>
+                    </div>
+
+                    <p class="item-description">{{ item.description|truncatechars:80 }}</p>
+
+                    <!-- Card Meta Info -->
+                    <div class="card-meta-footer">
+                        <div class="meta-item">
+                            <i class="fas fa-clock"></i>
+                            <span>20-30 min</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fas fa-check-double"></i>
+                            <span>Available</span>
+                        </div>
+                    </div>
+
+                    <!-- CTA Button -->
+                    <button class="add-to-cart-btn">
+                        <i class="fas fa-shopping-cart"></i> Add to Cart
+                    </button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    {% endfor %}
+</div>
+
+<!-- EMPTY STATE FALLBACK -->
+{% if not category_items %}
+<div class="empty-menu-state">
+    <div class="empty-icon">
+        <i class="fas fa-inbox"></i>
+    </div>
+    <h3>Menu Coming Soon</h3>
+    <p>No items available at the moment. Please check back soon!</p>
+</div>
+{% endif %}
 
 {% endblock %}

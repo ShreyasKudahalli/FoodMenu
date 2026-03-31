@@ -57,7 +57,7 @@
             {% if item.food_image %}
                 <img src="{{ item.food_image.url }}" alt="{{ item.name }}" class="food-image">
             {% else %}
-                <img src="{% static 'images/default-food.jpg' %}" alt="Default Food" class="food-image">
+                <img src="https://via.placeholder.com/400x300?text={{ item.name|urlencode }}" alt="Default Food" class="food-image">
             {% endif %}
         </div>
 
