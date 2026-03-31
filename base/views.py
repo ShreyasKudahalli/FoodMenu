@@ -73,7 +73,10 @@ def view_food(request):
 
     food_items = FoodItem.objects.filter(restaurant=restaurant)
 
-    return render(request, 'Home/view-food.html', {'food_items': food_items})
+    return render(request, 'Home/view-food.html', {
+        'food_items': food_items,
+        'is_customer_view': False
+    })
 
 def customer_menu(request, slug):
     restaurant = get_object_or_404(Restaurant, slug=slug)
