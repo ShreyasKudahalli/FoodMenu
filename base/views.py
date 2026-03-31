@@ -81,12 +81,29 @@ def customer_menu(request, slug):
     food_items = FoodItem.objects.filter(
         restaurant=restaurant,
         is_available=True
-    )
+    ).order_by('category', 'name')
+
+    # Group food items by category
+    from itertools import groupby
+    category_items = {}
+    category_labels = {
+        'veg': 'Vegetarian',
+        'nonveg': 'Non-Vegetarian',
+        'beverage': 'Beverage',
+        'dessert': 'Dessert',
+    }
+    
+    for category_key, items in groupby(food_items, key=lambda x: x.category):
+        category_items[category_key] = {
+            'label': category_labels.get(category_key, category_key),
+            'items': list(items)
+        }
 
     return render(request, 'Home/customer-menu.html', {
         'is_customer_view': True,
         'restaurant': restaurant,
-        'food_items': food_items
+        'food_items': food_items,
+        'category_items': category_items
     })
 
 @login_required

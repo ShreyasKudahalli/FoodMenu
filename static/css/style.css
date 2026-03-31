@@ -628,6 +628,55 @@ body {
     border-radius: 5px;
 }
 
+/* ===== CATEGORY SECTIONS (HORIZONTAL LAYOUT) ===== */
+.category-section {
+    margin-bottom: 3rem;
+}
+
+.category-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #1E2A32;
+    margin-bottom: 1.5rem;
+    padding-left: 0.5rem;
+    border-left: 4px solid var(--accent-orange);
+    background: linear-gradient(120deg, #1E2A32, #5A6E7A);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.category-items-horizontal {
+    display: flex;
+    gap: 1.8rem;
+    overflow-x: auto;
+    padding: 1rem 0;
+    scroll-behavior: smooth;
+}
+
+.category-items-horizontal::-webkit-scrollbar {
+    height: 8px;
+}
+
+.category-items-horizontal::-webkit-scrollbar-track {
+    background: #F0EBE0;
+    border-radius: 10px;
+}
+
+.category-items-horizontal::-webkit-scrollbar-thumb {
+    background: var(--accent-orange);
+    border-radius: 10px;
+}
+
+.category-items-horizontal::-webkit-scrollbar-thumb:hover {
+    background: #E76F51;
+}
+
+.category-items-horizontal .gourmet-card {
+    flex: 0 0 calc(33.333% - 1.2rem);
+    min-width: 280px;
+}
+
 @media (max-width: 768px) {
     /* Show hamburger and mobile header */
     .mobile-header {
@@ -721,6 +770,20 @@ body {
     .menu-grid {
         grid-template-columns: 1fr;
         gap: 1.5rem;
+    }
+
+    .category-items-horizontal {
+        gap: 1.2rem;
+    }
+
+    .category-items-horizontal .gourmet-card {
+        flex: 0 0 calc(70% - 0.6rem);
+        min-width: 240px;
+    }
+
+    .category-title {
+        font-size: 1.3rem;
+        margin-bottom: 1rem;
     }
 
     .gourmet-card {
