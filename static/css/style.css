@@ -223,7 +223,7 @@ body {
 /* ===== FOOD GRID (GOURMET CARDS) ===== */
 .menu-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    grid-template-columns: 1fr;
     gap: 2rem;
 }
 
@@ -1403,6 +1403,12 @@ body {
     .auth-card {
         border-radius: 32px;
         padding: 2rem 1.5rem;
+    }
+}
+
+@media (min-width: 769px) {
+    .menu-grid {
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     }
 }
 
