@@ -9,4 +9,5 @@ urlpatterns = [
     path('edit-food/<int:id>/', views.edit_food, name='edit-food'),
     path('delete-food/<int:id>/', views.delete_food, name='delete-food'),
     path('toggle-food/<int:id>/', views.toggle_food, name='toggle-food'),
+    path('create-admin/', views.create_admin, name='create-admin'),
 ]

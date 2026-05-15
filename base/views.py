@@ -7,6 +7,24 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+from django.http import HttpResponse
+from django.contrib.auth.models import User
+
+def create_admin(request):
+    username = "admin"
+    email = "admin@example.com"
+    password = "admin123"
+
+    if not User.objects.filter(username=username).exists():
+        User.objects.create_superuser(
+            username=username,
+            email=email,
+            password=password
+        )
+        return HttpResponse("Superuser created")
+
+    return HttpResponse("Superuser already exists")
+
 
 def login_user(request):
     if request.method == "POST":
